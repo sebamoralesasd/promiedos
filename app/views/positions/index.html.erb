@@ -1,0 +1,47 @@
+<!-- app/views/positions/index.html.erb -->
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+  }
+
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+</style>
+
+<% if @players %>
+  <table>
+    <thead>
+      <tr>
+        <th>Player Name</th>
+        <th>Matches Won</th>
+        <th>Total Matches</th>
+        <th>Ratio</th>
+        <th>Compite?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <tr>
+          <td><%= player[:name] %></td>
+          <td><%= player[:matches_won] %></td>
+          <td><%= player[:total_matches] %></td>
+          <td><%= player[:ratio].round(2) %></td>
+          <td><%= player[:eligible_for_tournament] ? 'Sí' : 'No' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No players found.</p>
+<% end %>
