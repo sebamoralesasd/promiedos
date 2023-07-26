@@ -18,24 +18,14 @@ class Positions
                     .group('players.id')
                     .order(Arel.sql('CAST(matches_won AS FLOAT) / total_matches DESC'))
 
-    # players.each do |p|
-    #  player_name = p.name
-    #  matches_won = p.matches_won
-    #  total_matches = p.total_matches
-    #  ratio = p.ratio
-    #  output = "#{player_name}: #{matches_won} / #{total_matches} = #{ratio}"
-    #  puts output
-    # end
-
-    # players
-
     players.map do |player|
       {
         name: player.name,
         matches_won: player.matches_won,
         total_matches: player.total_matches,
         ratio: player.ratio,
-        eligible_for_tournament: player.total_matches >= min_matches_required
+        eligible_for_tournament: player.total_matches >= min_matches_required,
+        match_history: player.matches.order('created_at DESC').limit(5)
       }
     end
   end

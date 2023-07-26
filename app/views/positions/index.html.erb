@@ -1,5 +1,10 @@
 <!-- app/views/positions/index.html.erb -->
 <style>
+  .table-container {
+    margin: 0 auto; /* Center the table on the screen */
+    max-width: 800px; /* Set a maximum width for the table */
+  }
+
   table {
     border-collapse: collapse;
     width: 100%;
@@ -20,28 +25,41 @@
 </style>
 
 <% if @players %>
-  <table>
-    <thead>
-      <tr>
-        <th>Player Name</th>
-        <th>Matches Won</th>
-        <th>Total Matches</th>
-        <th>Ratio</th>
-        <th>Compite?</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @players.each do |player| %>
+  <div class="table-container">
+    <table>
+      <thead>
         <tr>
-          <td><%= player[:name] %></td>
-          <td><%= player[:matches_won] %></td>
-          <td><%= player[:total_matches] %></td>
-          <td><%= player[:ratio].round(2) %></td>
-          <td><%= player[:eligible_for_tournament] ? 'Sí' : 'No' %></td>
+          <th>Jugador</th>
+          <th>Partidas ganadas</th>
+          <th>Partidas totales</th>
+          <th>Ratio</th>
+          <th>Historial</th>
+          <th>Compite?</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @players.each do |player| %>
+          <tr>
+            <td><%= player[:name] %></td>
+            <td><%= player[:matches_won] %></td>
+            <td><%= player[:total_matches] %></td>
+            <td><%= player[:ratio].round(2) %></td>
+            <td>
+              <% match_history = player[:match_history] %>
+              <% match_history.each do |ma| %>
+                <% if ma %>
+                  <%= player[:name] == ma.winner[:name] ? 'W' : 'L' %>
+                <% else %>
+                  _
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= player[:eligible_for_tournament] ? 'Sí' : 'No' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
   <p>No players found.</p>
 <% end %>
