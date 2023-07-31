@@ -2,11 +2,19 @@
 <style>
 body {
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 70px 0;
+  background-image: url('<%= asset_path("header.jpg") %>');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
   .table-container {
     margin: 0 auto; /* Center the table on the screen */
     max-width: 800px; /* Set a maximum width for the table */
+position: relative; /* Set the table container to relative positioning */
+  z-index: 1; /* Set the z-index to make the table appear on top of the background */
   }
 
   table {
@@ -34,7 +42,10 @@ body {
   tr.no-competition-bg td {
     background-color: #f2f2f2; /* Light gray background color */
   }
-
+  /* Style for table rows (header and data rows) */
+  tr {
+    height: 50px; /* Set the row height to 40 pixels */
+  }
   /* Styles for the color boxes */
   .history-box {
     width: 20px;
@@ -50,13 +61,32 @@ body {
   .history-box.lost {
     background-color: red;
   }
-</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
 
+  /* Style for the title cell */
+  th.title-cell {
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Add a 1px solid gray border at the bottom */
+    padding-bottom: 8px; /* Add some spacing between the title and the column headers */
+  }
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
+</head>
+
+<body>
+  
 <% if @players %>
   <div class="table-container">
     <table>
       <thead>
+<!-- Title row -->
+        <tr>
+          <th colspan="6" class="title-cell">🏆 Torneo de Invierno 🏆</th>
+        </tr>
         <tr>
           <th>Jugador</th>
           <th>Partidas ganadas</th>
@@ -89,7 +119,7 @@ body {
                 <% end %>
               <% end %>
             </td>
-            <td><%= player[:eligible_for_tournament] ? 'Sí' : 'No' %></td>
+            <td><%= player[:eligible_for_tournament] ? '👍' : '👎' %></td>
           </tr>
         <% end %>
       </tbody>
@@ -98,3 +128,5 @@ body {
 <% else %>
   <p>No players found.</p>
 <% end %>
+  </body>
+</html>
