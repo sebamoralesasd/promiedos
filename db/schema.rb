@@ -11,9 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_26_001738) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "match_players", force: :cascade do |t|
-    t.integer "player_id", null: false
-    t.integer "match_id", null: false
+    t.bigint "player_id", null: false
+    t.bigint "match_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_match_players_on_match_id"
@@ -22,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_26_001738) do
 
   create_table "matches", force: :cascade do |t|
     t.integer "order"
-    t.integer "winner_id", null: false
+    t.bigint "winner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["winner_id"], name: "index_matches_on_winner_id"

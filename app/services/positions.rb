@@ -12,11 +12,12 @@ class Positions
     # Calculate the minimum number of matches required to compete
     min_matches_required = max_matches_played ? (max_matches_played / 2) : 0
 
-    players = Player.select('players.*, COUNT(match_players.match_id) AS total_matches, COUNT(matches_winner.id) AS matches_won, CAST(COUNT(matches_winner.id) AS float) / CAST(COUNT(match_players.match_id) AS float) AS ratio')
+    players = Player.select('players.*, COUNT(match_players.match_id) AS total_matches, COUNT(matches_winner.id) AS matches_won, ' +
+                            'CAST(COUNT(matches_winner.id) AS float) / NULLIF(COUNT(match_players.match_id), 0) AS ratio')
                     .joins('LEFT JOIN match_players ON match_players.player_id = players.id')
                     .joins('LEFT JOIN matches matches_winner ON matches_winner.id = match_players.match_id AND matches_winner.winner_id = players.id')
                     .group('players.id')
-                    .order(Arel.sql('CAST(matches_won AS FLOAT) / total_matches DESC'))
+                    .order(Arel.sql('CAST(COUNT(matches_winner.id) AS FLOAT) / NULLIF(COUNT(match_players.match_id), 0) DESC'))
 
     players.map do |player|
       {
