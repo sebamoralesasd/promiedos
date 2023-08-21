@@ -9,17 +9,21 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
 }
-
+.bold_row {
+  font-weight: bold;
+}
   .table-container {
     margin: 0 auto; /* Center the table on the screen */
     max-width: 800px; /* Set a maximum width for the table */
 position: relative; /* Set the table container to relative positioning */
-  z-index: 1; /* Set the z-index to make the table appear on top of the background */
+z-index: 1; /* Set the z-index to make the table appear on top of the background */
+padding: 20px;
   }
 
   table {
     border-collapse: collapse;
     width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to the table */
   }
 
   th {
@@ -28,6 +32,7 @@ position: relative; /* Set the table container to relative positioning */
     font-weight: bold;
     padding: 8px;
     text-align: left;
+text-transform: uppercase;
   }
 
   td {
@@ -52,6 +57,7 @@ position: relative; /* Set the table container to relative positioning */
     height: 20px;
     display: inline-block;
     border: 1px solid #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
   .history-box.won {
@@ -67,66 +73,109 @@ position: relative; /* Set the table container to relative positioning */
     text-align: center;
     border-bottom: 1px solid #ddd; /* Add a 1px solid gray border at the bottom */
     padding-bottom: 8px; /* Add some spacing between the title and the column headers */
+  font-size: 24px;
+  margin-bottom: 20px;
   }
-</style>
 
+/* Style for the match-history section */
+.match-history {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light drop shadow */
+}
+
+.match-history h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.match-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.match-history th,
+.match-history td {
+  padding: 8px;
+  text-align: center;
+}
+
+.match-history th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.match-history tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.match-history tr:last-child {
+  border-bottom: none;
+}
+</style>
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
+    >
+  </head>
 
-<body>
-  
-<% if @players %>
-  <div class="table-container">
-    <table>
-      <thead>
-<!-- Title row -->
-        <tr>
-          <th colspan="6" class="title-cell">🏆 Torneo de Invierno 🏆</th>
-        </tr>
-        <tr>
-          <th>Jugador</th>
-          <th>Partidas ganadas</th>
-          <th>Partidas totales</th>
-          <th>Ratio</th>
-          <th>Historial</th>
-          <th>Compite?</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @players.each_with_index do |player, index| %>
-          <% bold_class = index == 0 ? 'bold-row' : '' %>
-          <% bg_class = player[:eligible_for_tournament] ? '' : 'no-competition-bg' %>
-          <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-            <td><%= player[:name].capitalize %></td>
-            <td><%= player[:matches_won] %></td>
-            <td><%= player[:total_matches] %></td>
-            <td><%= player[:ratio].round(2) %></td>
-            <td>
-              <% match_history = player[:match_history] %>
-              <% match_history.each do |ma| %>
-                <% if ma %>
-                 <% if player[:name] == ma.winner[:name] %>
-                    <div class="history-box won"></div>
-                  <% else %>
-                    <div class="history-box lost"></div>
+  <body>
+
+    <% if @players %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <!-- Title row -->
+            <tr>
+              <th colspan="6" class="title-cell">🏆 Torneo de Invierno 🏆</th>
+            </tr>
+            <tr>
+              <th>Jugador</th>
+              <th>Partidas ganadas</th>
+              <th>Partidas totales</th>
+              <th>Ratio</th>
+              <th>Historial</th>
+              <th>Compite?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @players.each_with_index do |player, index| %>
+              <% bold_class = index == 0 ? "bold-row" : "" %>
+              <% bg_class = player[:eligible_for_tournament] ? "" : "no-competition-bg" %>
+              <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
+                <td><%= player[:name].capitalize %></td>
+                <td><%= player[:matches_won] %></td>
+                <td><%= player[:total_matches] %></td>
+                <td><%= player[:ratio].round(2) %></td>
+                <td>
+                  <% match_history = player[:match_history] %>
+                  <% match_history.each do |ma| %>
+                    <% if ma %>
+                      <% if player[:name] == ma.winner[:name] %>
+                        <div class="history-box won"></div>
+                      <% else %>
+                        <div class="history-box lost"></div>
+                      <% end %>
+                    <% else %>
+                      _
+                    <% end %>
                   <% end %>
-                <% else %>
-                  _
-                <% end %>
-              <% end %>
-            </td>
-            <td><%= player[:eligible_for_tournament] ? '👍' : '👎' %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-<% else %>
-  <p>No players found.</p>
-<% end %>
+                </td>
+                <td><%= player[:eligible_for_tournament] ? "👍" : "👎" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p>No players found.</p>
+    <% end %>
   </body>
 </html>
