@@ -3,7 +3,6 @@
 class CreateMatch
   def call(players_names, winner_name)
     result = nil
-
     ActiveRecord::Base.transaction do
       w = Player.find_by!(name: winner_name)
       m = Match.create!(winner: w)
