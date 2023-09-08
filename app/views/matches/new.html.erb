@@ -9,6 +9,9 @@
   text-align: center;
   z-index: 1000; /* to ensure it's above other elements */
   transition: background-color 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status-bar-success {
@@ -18,6 +21,13 @@
 
 .status-bar-error {
   background-color: #f44336; /* Red */
+  color: white;
+}
+.close-btn {
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  line-height: 1;
   color: white;
 }
 </style>
@@ -41,12 +51,14 @@
   <% if flash[:notice] %>
     <div class="status-bar status-bar-success">
       <%= flash[:notice] %>
+      <span class="close-btn">&times;</span>
     </div>
   <% end %>
 
   <% if flash[:alert] %>
     <div class="status-bar status-bar-error">
       <%= flash[:alert] %>
+      <span class="close-btn">&times;</span>
     </div>
   <% end %>
 <% end %>
@@ -70,4 +82,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+  // Get all close buttons
+  var closeButtons = document.querySelectorAll('.close-btn');
+  
+  // Loop through each close button and add the event listener
+  closeButtons.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.target.parentElement.style.display = 'none';
+    });
+  });
 </script>
