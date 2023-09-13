@@ -14,8 +14,7 @@ class Positions
 
     players = Player.select('players.*, COUNT(match_players.match_id) AS total_matches, COUNT(matches_winner.id) AS matches_won, ' \
                           'CAST(COUNT(matches_winner.id) AS float) / NULLIF(COUNT(match_players.match_id), 0) AS ratio, ' \
-                          'CASE WHEN COUNT(match_players.match_id) >= ? THEN 1 ELSE 0 END AS eligible_for_tournament',
-                            min_matches_required)
+                          'CASE WHEN COUNT(match_players.match_id) >= ' + min_matches_required.to_i.to_s + ' THEN 1 ELSE 0 END AS eligible_for_tournament')
                     .joins('LEFT JOIN match_players ON match_players.player_id = players.id')
                     .joins('LEFT JOIN matches matches_winner ON matches_winner.id = match_players.match_id AND matches_winner.winner_id = players.id')
                     .group('players.id')
