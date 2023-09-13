@@ -36,7 +36,7 @@
                 <td><%= player[:name].capitalize %></td>
                 <td><%= player[:matches_won] %></td>
                 <td><%= player[:total_matches] %></td>
-                <td><%= player[:ratio]&.round(2) %></td>
+                <td><%= player[:ratio]&.round(3) %></td>
                 <td>
                   <% match_history = player[:match_history] %>
                   <% match_history.each do |ma| %>
