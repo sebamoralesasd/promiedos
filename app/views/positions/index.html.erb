@@ -1,5 +1,4 @@
-<!-- app/views/positions/index.html.erb -->
-<!DOCTYPE html>
+<!-- app/views/positions/index.html.erb --> <!DOCTYPE html>
 <html>
   <head>
 
@@ -33,7 +32,7 @@
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-                <td><%= player[:name].capitalize %></td>
+                <td><%= index == 0 ? "🏆 #{player[:name].capitalize} 🏆" : player[:name].capitalize %></td>
                 <td><%= player[:matches_won] %></td>
                 <td><%= player[:total_matches] %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
