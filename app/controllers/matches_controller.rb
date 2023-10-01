@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MatchesController < ApplicationController
   def create
     players_names = params[:players_names]

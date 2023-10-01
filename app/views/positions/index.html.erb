@@ -1,4 +1,4 @@
-<!-- app/views/positions/index.html.erb --> <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
 
@@ -10,13 +10,15 @@
 
   <body>
 
-    <% if @players %>
+    <% if @positions %>
       <div class="table-container">
         <table>
           <thead>
             <!-- Title row -->
             <tr>
-              <th colspan="6" class="title-cell">🏆 Torneo de Invierno 🏆</th>
+              <th colspan="6" class="title-cell">🏆
+                <%= @tournament.name.capitalize %>
+                🏆</th>
             </tr>
             <tr>
               <th>Jugador</th>
@@ -28,11 +30,11 @@
             </tr>
           </thead>
           <tbody>
-            <% @players.each_with_index do |player, index| %>
+            <% @positions.each_with_index do |player, index| %>
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-                <td><%= index == 0 ? "🏆 #{player[:name].capitalize} 🏆" : player[:name].capitalize %></td>
+                <td><%= player[:name].capitalize %></td>
                 <td><%= player[:matches_won] %></td>
                 <td><%= player[:total_matches] %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
