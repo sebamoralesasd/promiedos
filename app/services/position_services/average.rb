@@ -15,6 +15,7 @@ module PositionServices
           'CAST(SUM(match_players.points) AS float) / NULLIF(COUNT(match_players.match_id), 0) AS ratio')
                           .joins('LEFT JOIN match_players ON match_players.player_id = players.id')
                           .joins('LEFT JOIN matches matches_winner ON matches_winner.id = match_players.match_id AND matches_winner.winner_id = players.id')
+                          .where('matches_winner.tournament_id = ? OR matches_winner.tournament_id IS NULL', tournament.id)
                           .group('players.id')
                           .order(Arel.sql('ratio DESC'))
 
