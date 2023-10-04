@@ -16,7 +16,7 @@
           <thead>
             <!-- Title row -->
             <tr>
-              <th colspan="7" class="title-cell">🏆
+              <th colspan="6" class="title-cell">🏆
                 <%= @tournament.name.capitalize %>
                 🏆</th>
             </tr>
@@ -24,7 +24,6 @@
               <th>Jugador</th>
               <th>Partidas ganadas</th>
               <th>Partidas totales</th>
-              <th>Puntos totales</th>
               <th>Ratio</th>
               <th>Historial</th>
               <th>Compite?</th>
@@ -38,7 +37,6 @@
                 <td><%= player[:name].capitalize %></td>
                 <td><%= player[:matches_won] %></td>
                 <td><%= player[:total_matches] %></td>
-                <td><%= player[:total_points] %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
                 <td>
                   <% match_history = player[:match_history] %>

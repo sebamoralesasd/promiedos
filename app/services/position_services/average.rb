@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PositionServices
-  class Ratio < Strategy
+  class Average < Strategy
     def execute(params)
       tournament = params[:tournament]
       # Get the maximum matches played by any player
@@ -11,11 +11,12 @@ module PositionServices
 
       players = tournament.players
                           .select('players.*, COUNT(match_players.match_id) AS total_matches, COUNT(matches_winner.id) AS matches_won, ' \
-                              'CAST(COUNT(matches_winner.id) AS float) / NULLIF(COUNT(match_players.match_id), 0) AS ratio')
+          'SUM(match_players.points) AS total_points, ' \
+          'CAST(SUM(match_players.points) AS float) / NULLIF(COUNT(match_players.match_id), 0) AS ratio')
                           .joins('LEFT JOIN match_players ON match_players.player_id = players.id')
                           .joins('LEFT JOIN matches matches_winner ON matches_winner.id = match_players.match_id AND matches_winner.winner_id = players.id')
                           .group('players.id')
-                          .order(Arel.sql('CAST(COUNT(matches_winner.id) AS FLOAT) / NULLIF(COUNT(match_players.match_id), 0) DESC'))
+                          .order(Arel.sql('ratio DESC'))
 
       players.map do |player|
         {

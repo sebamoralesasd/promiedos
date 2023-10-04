@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class MatchesController < ApplicationController
+class TournamentsController < ApplicationController
   def create
-    players = params[:players].values
-    winner_name = params[:winner_name]
-    Rails.logger.info "Players: #{players}"
-    Rails.logger.info "Winner: #{winner_name}"
+    players_names = params[:players_names]
+    name = params[:name]
+    Rails.logger.info "Players: #{players_names}"
+    Rails.logger.info "Tournament name: #{name}"
 
-    create_match_service = ::CreateMatch.new
+    create_tournament_service = ::CreateTournament.new
 
     begin
-      match = create_match_service.call(players, winner_name)
-      flash[:notice] = 'Match created successfully'
-      render json: { message: 'Match created successfully', match_id: match.id }, status: :created
+      match = create_tournament_service.call(players_names, name)
+      flash[:notice] = 'Tournament created successfully'
+      render json: { message: 'Tournament created successfully', match_id: match.id }, status: :created
     rescue ActiveRecord::RecordNotFound => e
       Rails.logger.error(e.inspect)
       return unless e.respond_to?(:backtrace) && e.backtrace.present?

@@ -31,27 +31,23 @@
   color: white;
 }
 </style>
+<%= form_for :tournament, url: tournaments_path, method: :post do |f| %>
 
-<%= form_for :match, url: matches_path, method: :post do |f| %>
-  <div id="player-info">
-    <div class="player">
-      <%= f.label :players_names, "Player Name:" %>
-      <%= f.text_field :players_names, name: "players[0][name]" %>
-
-      <%= f.label :players_points, "Points:" %>
-      <%= f.number_field :players_points, name: "players[0][points]" %>
-    </div>
+  <%# Fields for player names allowing multiple entries %>
+  <div id="player-names">
+    <%= f.label :players_names, "Player Name:" %>
+    <%= f.text_field :players_names, name: "players_names[]", multiple: true %>
   </div>
 
   <%= link_to "Add Another Player", "#", id: "add-player" %>
 
+  <%# Field for the winner's name %>
   <div>
-    <%= f.label :winner_name, "Winner's Name:" %>
-    <%= f.text_field :winner_name, name: "winner_name" %>
+    <%= f.label :name, "Tournament Name:" %>
+    <%= f.text_field :name, name: "name" %>
   </div>
 
-  <%= f.submit "Create Match" %>
-
+  <%= f.submit "Create tournament" %>
   <% if flash[:notice] %>
     <div class="status-bar status-bar-success">
       <%= flash[:notice] %>
@@ -70,34 +66,14 @@
 <script>
   // Simple JavaScript to allow adding multiple player name fields
   document.getElementById('add-player').addEventListener('click', function(e) {
-  e.preventDefault();
-  const container = document.getElementById('player-info');
-  const playerIndex = container.getElementsByClassName('player').length;
-  const playerDiv = document.createElement('div');
-  playerDiv.className = "player";
-
-  const nameLabel = document.createElement('label');
-  nameLabel.innerHTML = "Player Name:";
-  playerDiv.appendChild(nameLabel);
-
-  const nameInput = document.createElement('input');
-  nameInput.type = "text";
-  nameInput.name = `players[${playerIndex}][name]`;
-  playerDiv.appendChild(nameInput);
-
-  const pointsLabel = document.createElement('label');
-  pointsLabel.innerHTML = "Points:";
-  playerDiv.appendChild(pointsLabel);
-
-  const pointsInput = document.createElement('input');
-  pointsInput.type = "number";
-  pointsInput.name = `players[${playerIndex}][points]`;
-  playerDiv.appendChild(pointsInput);
-
-  container.appendChild(playerDiv);
+    e.preventDefault();
+    const container = document.getElementById('player-names');
+    const input = document.createElement('input');
+    input.type = "text";
+    input.name = "players_names[]";
+    container.appendChild(input);
   });
-
-  document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
   var form = document.querySelector("#your_form_id"); // Replace 'your_form_id' with the actual ID of your form.
   
   form.addEventListener("submit", function() {
