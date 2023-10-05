@@ -3,7 +3,7 @@
 class PositionsController < ApplicationController
   def index
     @tournament = Tournament.last
-    @positions = PositionServices::Context.new(PositionServices::Average.new).execute(tournament: @tournament)
-    @match_history = ::MatchHistory.new.resolve(@tournament)
+    @positions = PositionServices::Context.new(PositionServices::Average.new)
+                                          .execute(tournament: @tournament, winner_points: 2)
   end
 end

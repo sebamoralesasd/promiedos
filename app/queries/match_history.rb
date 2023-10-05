@@ -1,5 +1,5 @@
 class MatchHistory
   def resolve(tournament)
-    tournament.matches.order(created_at: :desc).limit(5)
+    tournament.matches.order(created_at: :desc) 
   end
 end

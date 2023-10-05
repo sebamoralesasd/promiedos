@@ -41,8 +41,7 @@
                 <td><%= player[:total_points] %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
                 <td>
-                  <!-- <% match_history = player[:match_history] %> -->
-                  <% match_history = [] %>
+                  <% match_history = player[:match_history] %>
                   <% match_history.each do |ma| %>
                     <% if ma %>
                       <% if player[:name] == ma.winner[:name] %>

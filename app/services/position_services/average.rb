@@ -24,16 +24,19 @@ module PositionServices
                           .group('players.id')
                           .order(Arel.sql('eligible_for_tournament DESC, ratio DESC'))
 
+      win_points = params[:winner_points]
       players.map do |player|
+        matches_won = player.matches_won || 0
+        total_matches = player.total_matches || 0
+        total_points = player.total_points || 0
         {
           name: player.name,
-          max_m: max_matches_played,
-          matches_won: player.matches_won,
-          total_matches: player.total_matches,
-          total_points: player.total_points,
+          matches_won:,
+          total_matches:,
+          total_points: total_points + matches_won * win_points,
           ratio: player.ratio,
-          eligible_for_tournament: player.eligible_for_tournament == 1 # ,
-          # match_history: player.matches.order('created_at DESC').limit(5)
+          eligible_for_tournament: player.eligible_for_tournament == 1,
+          match_history: ::MatchHistory.new.resolve(tournament).joins(:match_players).where(match_players: { player_id: player.id }).limit(5)
         }
       end
     end
