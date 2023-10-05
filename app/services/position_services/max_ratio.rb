@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PositionServices
   class MaxRatio < Strategy
     def execute
