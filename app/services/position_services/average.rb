@@ -27,6 +27,7 @@ module PositionServices
       players.map do |player|
         {
           name: player.name,
+          max_m: max_matches_played,
           matches_won: player.matches_won,
           total_matches: player.total_matches,
           total_points: player.total_points,
