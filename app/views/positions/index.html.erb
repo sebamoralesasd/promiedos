@@ -22,10 +22,10 @@
             </tr>
             <tr>
               <th>Jugador</th>
+              <th>Ratio</th>
+              <th>Puntos totales</th>
               <th>Partidas ganadas</th>
               <th>Partidas totales</th>
-              <th>Puntos totales</th>
-              <th>Ratio</th>
               <th>Historial</th>
               <th>Compite?</th>
             </tr>
@@ -37,9 +37,9 @@
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
                 <td><%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
+                <td><%= player[:total_points] %></td>
                 <td><%= player[:matches_won] %></td>
                 <td><%= player[:total_matches] %></td>
-                <td><%= player[:total_points] %></td>
                 <td>
                   <% match_history = player[:match_history] %>
                   <% match_history.each do |ma| %>
