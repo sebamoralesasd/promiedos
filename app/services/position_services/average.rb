@@ -3,42 +3,66 @@
 module PositionServices
   class Average < Strategy
     def execute(params)
-      tournament = params[:tournament]
+      @tournament = params[:tournament]
       # Get the maximum matches played by any player
-      max_matches_played = ::MaxMatchesPlayed.new.resolve(tournament)
+      max_matches_played = ::MaxMatchesPlayed.new.resolve(@tournament)
       # Calculate the minimum number of matches required to compete
       min_matches_required = max_matches_played ? (max_matches_played / 2) : 0
 
-      players = tournament.players
-                          .select("players.*,
-                             COUNT(DISTINCT match_players.match_id) FILTER(WHERE matches_for_count.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}) AS total_matches,
-                             COUNT(matches_winner.id) FILTER(WHERE matches_winner.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}) AS matches_won,
-                             SUM(match_players.points) FILTER(WHERE matches_for_count.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}) AS total_points,
-                             CAST(SUM(match_players.points) FILTER(WHERE matches_for_count.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}) AS float) /
-                             NULLIF(COUNT(DISTINCT match_players.match_id) FILTER(WHERE matches_for_count.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}), 0) AS ratio, " \
-        "CASE WHEN COUNT(DISTINCT match_players.match_id) FILTER(WHERE matches_for_count.tournament_id = #{ActiveRecord::Base.connection.quote(tournament.id)}) >= " + min_matches_required.to_i.to_s + ' THEN 1 ELSE 0 END AS eligible_for_tournament')
-                          .joins('LEFT JOIN match_players ON match_players.player_id = players.id')
-                          .joins('LEFT JOIN matches matches_winner ON matches_winner.id = match_players.match_id AND matches_winner.winner_id = players.id')
-                          .joins('LEFT JOIN matches matches_for_count ON matches_for_count.id = match_players.match_id')
-                          .where('matches_winner.tournament_id = ? OR matches_winner.tournament_id IS NULL', tournament.id)
-                          .group('players.id')
-                          .order(Arel.sql('eligible_for_tournament DESC, ratio DESC'))
+      @players = @tournament.players.select('players.*')
 
-      win_points = params[:winner_points]
-      players.map do |player|
-        matches_won = player.matches_won || 0
-        total_matches = player.total_matches || 0
-        total_points = player.total_points || 0
-        {
+      player_stats = []
+
+      @players.each do |player|
+        player_id = player.id
+
+        player_total_matches = total_matches[player_id] || 0
+        player_total_points = total_points[player_id] || 0
+        player_matches_won = matches_won[player_id] || 0
+
+        ratio = player_total_matches.zero? ? 0 : player_total_points.to_f / player_total_matches
+        eligible_for_tournament = player_total_matches >= min_matches_required.to_i ? 1 : 0
+
+        # Store stats in a hash for further usage.
+        player_stats << {
           name: player.name,
-          matches_won:,
-          total_matches:,
-          total_points: total_points + matches_won * win_points,
-          ratio: player.ratio,
-          eligible_for_tournament: player.eligible_for_tournament == 1,
-          match_history: ::MatchHistory.new.resolve(tournament).joins(:match_players).where(match_players: { player_id: player.id }).limit(5)
+          total_matches: player_total_matches,
+          total_points: player_total_points,
+          matches_won: player_matches_won,
+          ratio:,
+          eligible_for_tournament:,
+          match_history: match_history(player_id)
         }
       end
+
+      player_stats
+    end
+
+    private
+
+    def total_matches
+      MatchPlayer.joins(:match)
+                 .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
+                 .group(:player_id)
+                 .count
+    end
+
+    def matches_won
+      Match.joins(:match_players)
+           .where(winner_id: @players.map(&:id), tournament_id: @tournament.id)
+           .group(:winner_id)
+           .count
+    end
+
+    def total_points
+      MatchPlayer.joins(:match)
+                 .where(player_id: @players.map(&:id), matches: { tournament_id: @tournament.id })
+                 .group(:player_id)
+                 .sum(:points)
+    end
+
+    def match_history(player_id)
+      ::MatchHistory.new.resolve(@tournament).joins(:match_players).where(match_players: { player_id: }).limit(5)
     end
   end
 end
