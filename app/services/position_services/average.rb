@@ -36,10 +36,14 @@ module PositionServices
         }
       end
 
-      player_stats
+      sort(player_stats)
     end
 
     private
+
+    def sort(stats)
+      stats.sort_by! { |x| [-x[:eligible_for_tournament], -x[:ratio]] }
+    end
 
     def total_matches
       MatchPlayer.joins(:match)
