@@ -33,7 +33,7 @@
           <tbody>
             <% @positions.each_with_index do |player, index| %>
               <% bold_class = index == 0 ? "bold-row" : "" %>
-              <% bg_class = player[:eligible_for_tournament] ? "" : "no-competition-bg" %>
+              <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
                 <td><%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
@@ -54,7 +54,7 @@
                     <% end %>
                   <% end %>
                 </td>
-                <td><%= player[:eligible_for_tournament] ? "👍" : "👎" %></td>
+                <td><%= player[:eligible_for_tournament] == 1 ? "👍" : "👎" %></td>
               </tr>
             <% end %>
           </tbody>
