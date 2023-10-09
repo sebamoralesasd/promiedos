@@ -12,7 +12,7 @@ body {
 }
 .table-container {
   margin: 0 auto; /* Center the table on the screen */
-  max-width: 800px; /* Set a maximum width for the table */
+  max-width: 850px; /* Set a maximum width for the table */
   position: relative; /* Set the table container to relative positioning */
   z-index: 1; /* Set the z-index to make the table appear on top of the background */
   padding: 20px;
