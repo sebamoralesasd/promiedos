@@ -7,7 +7,7 @@ module PositionServices
       # Get the maximum matches played by any player
       max_matches_played = ::MaxMatchesPlayed.new.resolve(@tournament)
       # Calculate the minimum number of matches required to compete
-      min_matches_required = max_matches_played ? (max_matches_played / 2) : 0
+      min_matches_required = max_matches_played ? (max_matches_played / 2).round : 0
 
       @players = @tournament.players.select('players.*')
       winner_points = params[:winner_points]
