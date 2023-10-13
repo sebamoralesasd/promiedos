@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :matches, only: %i[create new]
   resources :tournaments, only: %i[create new]
   get '/positions', to: 'positions#index'
+  get '/historical', to: 'historical#index'
 end

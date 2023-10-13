@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
+    >
+  </head>
+
+  <body>
+
+    <% if @positions %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <!-- Title row -->
+            <tr>
+              <th colspan="4" class="title-cell">🏆 HISTÓRICO 🏆</th>
+            </tr>
+            <tr>
+              <th>Jugador</th>
+              <th>Ratio</th>
+              <th>Partidas ganadas</th>
+              <th>Partidas totales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @positions.each_with_index do |player, index| %>
+              <% bold_class = index == 0 ? "bold-row" : "" %>
+              <tr class="<%= "#{bold_class}".strip %>">
+                <td><%= player[:name].capitalize %></td>
+                <td><%= player[:ratio]&.round(3) %></td>
+                <td><%= player[:matches_won] %></td>
+                <td><%= player[:total_matches] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p>No players found.</p>
+    <% end %>
+  </body>
+</html>
