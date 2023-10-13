@@ -10,9 +10,8 @@ module PositionServices
         player_id = player.id
 
         player_total_matches = total_matches[player_id] || 0
-        player_total_points = total_points[player_id] || 0
         player_matches_won = matches_won[player_id] || 0
-        ratio = player_total_matches.zero? ? 0 : player_total_points.to_f / player_total_matches
+        ratio = player_total_matches.zero? ? 0 : player_matches_won.to_f / player_total_matches
 
         # Store stats in a hash for further usage.
         player_stats << {
@@ -48,13 +47,6 @@ module PositionServices
         .group('players.id')
         .each { |p| a[p.id] = p.matches_won }
       a
-    end
-
-    def total_points
-      MatchPlayer.joins(:match)
-                 .where(player_id: @players.map(&:id))
-                 .group(:player_id)
-                 .sum(:points)
     end
   end
 end
