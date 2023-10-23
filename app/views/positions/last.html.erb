@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
+    >
+  </head>
+
+  <body>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2" class="title-cell">🏆 Último partido 🏆</th>
+          </tr>
+          <tr>
+            <th>Jugador</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @positions.each_with_index do |mp, index| %>
+            <% bold_class = index == 0 ? "bold-row" : "" %>
+            <tr class="<%= "#{bold_class}".strip %>">
+              <td><%= mp.player.name.capitalize %></td>
+              <td><%= mp.points %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
