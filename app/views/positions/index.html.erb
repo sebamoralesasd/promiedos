@@ -6,10 +6,37 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
     >
+    <style>
+      /* Styles for the header */
+      header {
+        display: flex;
+        justify-content: center; /* Horizontally center the content */
+        align-items: center;     /* Vertically center the content */
+        height: 60px;            /* Set a fixed height for the header */
+        /*background-color: #f4f4f4; /* Light gray background for visibility */
+      }
+
+      header a {
+        margin: 0 10px; /* Space out the links a bit */
+        text-decoration: none; /* Remove the default underline */
+        color: #333; /* Dark gray color for the text */
+        font-weight: 700; /* Bold font weight */
+      }
+
+      header a:hover {
+        text-decoration: underline; /* Add an underline on hover */
+      }
+    </style>
   </head>
 
   <body>
-
+    <!-- Start of the header section -->
+    <header>
+      <a href="/positions/last">Último Partido</a>
+      |
+      <a href="/historical">Histórico</a>
+    </header>
+    <!-- End of the header section -->
     <% if @positions %>
       <div class="table-container">
         <table>
