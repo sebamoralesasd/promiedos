@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   get '/positions', to: 'positions#index'
   get '/positions/last', to: 'positions#last'
   get '/historical', to: 'historical#index'
+
+  resources :matches, only: %i[index show]
 end

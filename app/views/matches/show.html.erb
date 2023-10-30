@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
+    >
+    <style>
+    .navigation {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .navigation a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333; /* Dark gray color for the text */
+      font-weight: 700; /* Bold font weight */
+    }
+
+    .navigation a:hover {
+      text-decoration: underline; /* Add an underline on hover */
+    }
+    </style>
+  </head>
+  <body>
+    <div class="navigation">
+      <% if @all_matches[@current_match_index - 1].present? %>
+        <!-- If it's not the first match -->
+        <a href="<%= match_path(id: @all_matches[@current_match_index - 1].id) %>">⬅️ </a>
+      <% end %>
+      Fecha
+      <%= @current_match.id - @all_matches.first.id + 1 %>
+      <% if @all_matches[@current_match_index + 1].present? %>
+        <!-- If it's not the last match -->
+        <a href="<%= match_path(id: @all_matches[@current_match_index + 1].id) %>">➡️</a>
+      <% end %>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2" class="title-cell">Resultados partido
+            </th>
+          </tr>
+          <tr>
+            <th>Jugador</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @positions.each_with_index do |mp, index| %>
+            <% bold_class = index == 0 ? "bold-row" : "" %>
+            <tr class="<%= "#{bold_class}".strip %>">
+              <td><%= mp.player.name.capitalize %></td>
+              <td><%= mp.points %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
