@@ -38,7 +38,7 @@ class Positions
                                .group('players.id')
                                .order('total_matches DESC')
                                .first
-                           &.total_matches
+                               &.total_matches
 
     return unless max_matches_played
 
