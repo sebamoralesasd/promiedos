@@ -13,6 +13,8 @@
 ActiveRecord::Schema[7.0].define(version: 2024_04_01_205242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "timescaledb"
+  enable_extension "timescaledb_toolkit"
 
   create_table "match_players", force: :cascade do |t|
     t.bigint "player_id", null: false
