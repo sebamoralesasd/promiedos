@@ -1,5 +1,7 @@
 <style>
-
+body {
+  background-image: url(<%= asset_path 'header-blue.jpg' %>)
+}
 .status-bar {
   position: fixed;
   top: 0; /* or bottom: 0; based on preference */
@@ -32,7 +34,7 @@
 }
 </style>
 
-<%= form_for :match, url: matches_path, method: :post, html: { id: 'match-form' } do |f| %>
+<%= form_for :match, url: cups_path, method: :post, html: { id: 'match-form' } do |f| %>
   <div id="player-info">
     <div class="player">
       <%= f.label :players_names, "Player Name:" %>
