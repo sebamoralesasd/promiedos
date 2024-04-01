@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get '/historical', to: 'historical#index'
 
   resources :matches, only: %i[index show]
+  get '/copas', to: 'cups#index'
 end

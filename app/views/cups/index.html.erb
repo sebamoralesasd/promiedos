@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap"
+    >
+    <style>
+      /* Styles for the header */
+      header {
+        display: flex;
+        justify-content: center; /* Horizontally center the content */
+        align-items: center;     /* Vertically center the content */
+        height: 60px;            /* Set a fixed height for the header */
+        /*background-color: #f4f4f4; /* Light gray background for visibility */
+      }
+
+      header a {
+        margin: 0 10px; /* Space out the links a bit */
+        text-decoration: none; /* Remove the default underline */
+        color: #333; /* Dark gray color for the text */
+        font-weight: 700; /* Bold font weight */
+      }
+
+      header a:hover {
+        text-decoration: underline; /* Add an underline on hover */
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Start of the header section -->
+    <!-- <header> -->
+    <!--   <a href="/matches">Partidos último torneo</a> -->
+    <!--   | -->
+    <!--   <a href="/historical">Histórico</a> -->
+    <!-- </header> -->
+    <!-- End of the header section -->
+    <% if @positions %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <!-- Title row -->
+            <tr>
+              <th colspan="7" class="title-cell">🏆
+                <%= @tournament.name.capitalize %>
+                🏆</th>
+            </tr>
+            <tr>
+              <th>Jugador</th>
+              <th>Ratio</th>
+              <th>Puntos totales</th>
+              <th>Partidas ganadas</th>
+              <th>Partidas totales</th>
+              <th>Historial</th>
+              <th>Compite?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @positions.each_with_index do |player, index| %>
+              <% bold_class = index == 0 ? "bold-row" : "" %>
+              <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
+              <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
+                <td><%= player[:name].capitalize %></td>
+                <td><%= player[:ratio]&.round(3) %></td>
+                <td><%= player[:total_points] %></td>
+                <td><%= player[:matches_won] %></td>
+                <td><%= player[:total_matches] %></td>
+                <td>
+                  <% match_history = player[:match_history] %>
+                  <% match_history.each do |ma| %>
+                    <% if ma %>
+                      <% if player[:name] == ma.winner[:name] %>
+                        <div class="history-box won"></div>
+                      <% else %>
+                        <div class="history-box lost"></div>
+                      <% end %>
+                    <% else %>
+                      _
+                    <% end %>
+                  <% end %>
+                </td>
+                <td><%= player[:eligible_for_tournament] == 1 ? "👍" : "👎" %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td colspan="7" class="description-cell">
+                <p>Se computan puntos ganados sobre partidos jugados. Sumandose
+                  2 puntos al ganador de la partida. Para que sea válida la
+                  participación de un jugador en búsqueda del título tiene que
+                  haber jugado al menos la mitad de catanes del jugador con más
+                  presencias. Solo son válidos los catanes de 4,5 o 6
+                  jugadores. En caso de igualdad de porcentaje, gana el torneo 
+                  el que mas catanes ganados tenga.</p>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p>No players found.</p>
+    <% end %>
+  </body>
+</html>

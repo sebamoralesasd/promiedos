@@ -4,9 +4,9 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
   host: <%= ENV.fetch('DATABASE_HOST', 'localhost') %>
-  port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
-  username: <%= ENV.fetch('DATABASE_USER', 'gravity') %>
-  password: <%= ENV.fetch('DATABASE_PASS', 'test') %>
+  port: 5432 #<%= ENV.fetch('DATABASE_PORT', 5432) %>
+  username: 'gravity' #<%= ENV.fetch('DATABASE_USER', 'gravity') %>
+  password: 'test' #<%= ENV.fetch('DATABASE_PASS', 'test') %>
 
 development:
   <<: *default
