@@ -32,7 +32,26 @@ body {
   line-height: 1;
   color: white;
 }
+.form-description {
+  margin-bottom: 20px; /* Adds space between the description and the form */
+}
+
+.form-description h2 {
+  margin-bottom: 10px; /* Adds a little space between the title and the description text */
+}
+
+.form-description p {
+  margin: 0; /* Removes default paragraph margin */
+  line-height: 1.5; /* Improves readability */
+}
 </style>
+
+<div class="form-description">
+  <h2>Crear partido para la copa corriente.</h2>
+  <p>Poner los nombres de los jugadores tal cual aparecen en la tabla (por ej. toalla en lugar de Alejo), de lo contrario el envío falla. 
+  Luego de apretar Create Match, recargar la página para ver si se mandaron bien los resultados o no (les va a aparecer arriba un cartel verde o rojo indicando si se enviaron bien o mal respectivamente (está hecho como el orto, algún día lo arreglo)). 
+  Cualquier cosa rara me avisan. </p>
+</div>
 
 <%= form_for :match, url: cups_path, method: :post, html: { id: 'match-form' } do |f| %>
   <div id="player-info">
@@ -112,11 +131,11 @@ body {
     // However, if you're using AJAX to submit the form, you'd clear the fields like this:
 
     // Reset only the text and number fields in the form
-    Array.from(form.elements).forEach(function(element) {
-      if (element.tagName === 'INPUT' && (element.type === 'text' || element.type === 'number')) {
-        element.value = ''; // Clear the field
-      }
-    });
+    // Array.from(form.elements).forEach(function(element) {
+    //   if (element.tagName === 'INPUT' && (element.type === 'text' || element.type === 'number')) {
+    //     element.value = ''; // Clear the field
+    //   }
+    // });
 
     // If using AJAX, remember to handle the submission and prevent the default form action.
   });

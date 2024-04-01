@@ -110,11 +110,11 @@
     // However, if you're using AJAX to submit the form, you'd clear the fields like this:
 
     // Reset only the text and number fields in the form
-    Array.from(form.elements).forEach(function(element) {
-      if (element.tagName === 'INPUT' && (element.type === 'text' || element.type === 'number')) {
-        element.value = ''; // Clear the field
-      }
-    });
+    // Array.from(form.elements).forEach(function(element) {
+    //   if (element.tagName === 'INPUT' && (element.type === 'text' || element.type === 'number')) {
+    //     element.value = ''; // Clear the field
+    //   }
+    // });
 
     // If using AJAX, remember to handle the submission and prevent the default form action.
   });
