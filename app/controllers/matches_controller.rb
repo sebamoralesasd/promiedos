@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
   end
 
   def index
-    tournament = Tournament.where(tournament_type: 'liga').last
+    tournament = Tournament.last # Tournament.where(tournament_type: 'liga').last
     last_match = tournament.matches.last
     if last_match
       redirect_to match_path(id: last_match.id)
@@ -55,7 +55,7 @@ class MatchesController < ApplicationController
 
   def show
     puts params
-    @all_matches = Match.where(tournament: Tournament.where(tournament_type: 'liga').last).order(:created_at)
+    @all_matches = Match.where(tournament: Tournament.last).order(:created_at)
     puts "MATCHES #{@all_matches.count}"
     puts "PRIMER MATCH #{@all_matches.first.id}"
     @current_match_index = if params[:id]
