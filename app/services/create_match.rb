@@ -5,11 +5,11 @@ class CreateMatch
     result = nil
     ActiveRecord::Base.transaction do
       tournament = Tournament.where(tournament_type:).last
-      w = Player.find_by!(name: winner_name.downcase)
+      w = Player.find_by!(name: winner_name.strip.downcase)
       number = number(tournament)
       m = Match.create!(winner: w, tournament:, number:)
       players.each do |pl|
-        name = pl[:name].downcase
+        name = pl[:name].strip.downcase
         points = pl[:points].to_i
         player = Player.find_by(name:)
         MatchPlayer.create!(match: m, player:, points:)
