@@ -3,7 +3,7 @@
 class CupsController < ApplicationController
   def index
     @tournament = Tournament.where(tournament_type: 'copa').last
-    @positions = PositionServices::Context.new(PositionServices::Average.new)
+    @positions = PositionServices::Context.new(PositionServices::Colonia.new)
                                           .execute(tournament: @tournament, winner_points: 2)
   end
 
