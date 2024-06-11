@@ -33,6 +33,7 @@
 </style>
 
 <%= form_for :match, url: matches_path, method: :post, html: { id: 'match-form' } do |f| %>
+  <p>Para llenar un partido, anotar los nombres de los jugadores tal cual figuran en la tabla, sus puntos y el ganador.<br> Luego de apretar en Create Match, refrescar la página: arriba va a aparecer un cartel verde o rojo dependiendo si se subió o no el partido correctamente.</p>
   <div id="player-info">
     <div class="player">
       <%= f.label :players_names, "Player Name:" %>
