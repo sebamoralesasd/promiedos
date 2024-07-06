@@ -5,6 +5,7 @@ class PositionsController < ApplicationController
     @tournament = Tournament.where(tournament_type: 'liga').last
     @positions = PositionServices::Context.new(PositionServices::Average.new)
                                           .execute(tournament: @tournament, winner_points: 2)
+    @last_match = ::Match.last
   end
 
   def last
