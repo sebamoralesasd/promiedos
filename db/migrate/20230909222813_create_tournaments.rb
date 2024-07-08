@@ -10,8 +10,8 @@ class CreateTournaments < ActiveRecord::Migration[7.0]
     end
 
     add_reference :matches, :tournament, foreign_key: true
-    t = Tournament.create!(name: 'Torneo de invierno', start_date: Date.new(2023, 6, 21),
-                           end_date: Date.new(2023, 9, 20))
+    # t = Tournament.create!(name: 'Torneo de invierno', start_date: Date.new(2023, 6, 21),
+    #                        end_date: Date.new(2023, 9, 20))
     Match.all.each do |m|
       m.update!(tournament: t)
     end

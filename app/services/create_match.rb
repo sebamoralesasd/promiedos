@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class CreateMatch
-  def call(players, winner_name, tournament_type)
+  def call(players, winner_name, created_by, tournament_type)
     result = nil
     ActiveRecord::Base.transaction do
       tournament = Tournament.where(tournament_type:).last
       w = Player.find_by!(name: winner_name.strip.downcase)
+      created_by = Player.find_by!(name: created_by.strip.downcase)
       number = number(tournament)
-      m = Match.create!(winner: w, tournament:, number:)
+      m = Match.create!(winner: w, tournament:, number:, created_by:)
       players.each do |pl|
         name = pl[:name].strip.downcase
         points = pl[:points].to_i

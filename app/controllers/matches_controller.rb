@@ -4,13 +4,15 @@ class MatchesController < ApplicationController
   def create
     players = params[:players].values
     winner_name = params[:winner_name]
+    created_by = params[:created_by]
     Rails.logger.info "Players: #{players}"
     Rails.logger.info "Winner: #{winner_name}"
+    Rails.logger.info "Sent by: #{created_by}"
 
     create_match_service = ::CreateMatch.new
 
     begin
-      match = create_match_service.call(players, winner_name, 'liga')
+      match = create_match_service.call(players, winner_name, created_by, 'liga')
       flash[:notice] = 'Match created successfully'
       render json: { message: 'Match created successfully', match_id: match.id }, status: :created
     rescue ActiveRecord::RecordNotFound => e
