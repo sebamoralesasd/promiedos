@@ -56,10 +56,7 @@ class MatchesController < ApplicationController
   end
 
   def show
-    puts params
     @all_matches = Match.where(tournament: Tournament.last).order(:created_at)
-    puts "MATCHES #{@all_matches.count}"
-    puts "PRIMER MATCH #{@all_matches.first.id}"
     @current_match_index = if params[:id]
                              @all_matches.find_index do |m|
                                m.id == params[:id].to_i
@@ -68,9 +65,7 @@ class MatchesController < ApplicationController
                              @all_matches.length - 1
                            end
 
-    puts "CM INDEX #{@current_match_index}"
     @current_match = @all_matches[@current_match_index]
-    puts "CM #{@current_match}"
     @positions = PositionServices::Context.new(PositionServices::LastMatch.new)
                                           .execute(match: @current_match)
   end
