@@ -89,11 +89,12 @@
             </tr>
           </thead>
           <tbody>
+            <%= fin_torneo = Date.current > @tournament.end_date %>
             <% @positions.each_with_index do |player, index| %>
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-                <td><%= player[:name].capitalize %></td>
+                <td><%= fin_torneo && index == 0 ? "🏆" : "" %> <%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
                 <td><%= player[:total_points] %></td>
                 <td><%= player[:matches_won] %></td>
