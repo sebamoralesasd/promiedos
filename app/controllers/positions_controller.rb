@@ -13,11 +13,15 @@ class PositionsController < ApplicationController
 
   def show
     @all_tournaments = Tournament.where(tournament_type: 'liga')
-    @tournament = if params[:id]
-                    @all_tournaments.find_by(alias: params[:id])
-                  else
-                    @all_tournaments.last
-                  end
+    @tournament_index = if params[:id]
+                          @all_tournaments.find_index do |tr|
+                            tr.alias == params[:id]
+                          end
+                        else
+                          @all_tournaments.length - 1
+                        end
+
+    @tournament = @all_tournaments[@tournament_index]
     @positions = PositionServices::Context.new(PositionServices::Average.new)
                                           .execute(tournament: @tournament, winner_points: 2)
     @last_match = ::Match.last
