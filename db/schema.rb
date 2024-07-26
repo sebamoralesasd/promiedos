@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_08_230137) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_26_162355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_08_230137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "tournament_type", default: "liga", null: false
+    t.text "description", default: "Se computan puntos ganados sobre partidos jugados. Sumandose 2 puntos al ganador de la partida. Para que sea válida la participación de un jugador en búsqueda del título tiene que haber jugado al menos la mitad de catanes del jugador con más presencias. Solo son válidos los catanes de 4,5 o 6 jugadores. La última fecha del torneo puede ser como máximo antes del cambio de estación. Los catanes viajeros no computan. El premio está a definirse. En caso de igualdad de porcentaje, gana el torneo el que mas catanes ganados tenga.", null: false
     t.index ["champion_id"], name: "index_tournaments_on_champion_id"
   end
 
