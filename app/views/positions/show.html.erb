@@ -62,8 +62,6 @@
         <!-- If it's not the first tournament -->
         <a href="<%= position_path(id: @all_tournaments[@tournament_index - 1].alias) %>">⬅️ </a>
       <% end %>
-      <!-- Fecha -->
-      <!-- <%= @tournament.number %> -->
       <% if @all_tournaments[@tournament_index + 1].present? %>
         <!-- If it's not the last tournament -->
         <a href="<%= position_path(id: @all_tournaments[@tournament_index + 1].alias) %>">➡️</a>
