@@ -60,11 +60,11 @@
     <div class="navigation">
       <% if @all_tournaments[@tournament_index - 1].present? %>
         <!-- If it's not the first tournament -->
-        <a href="<%= position_path(id: @all_tournaments[@tournament_index - 1].alias) %>">⬅️ </a>
+        <a href="<%= position_path(id: @all_tournaments[@tournament_index - 1].alias) %>">⬅️  Torneo anterior</a>
       <% end %>
       <% if @all_tournaments[@tournament_index + 1].present? %>
         <!-- If it's not the last tournament -->
-        <a href="<%= position_path(id: @all_tournaments[@tournament_index + 1].alias) %>">➡️</a>
+        <a href="<%= position_path(id: @all_tournaments[@tournament_index + 1].alias) %>">Torneo siguiente ➡️</a>
       <% end %>
     </div>
 
