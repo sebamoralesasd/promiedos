@@ -2,6 +2,8 @@
 
 class CreateMatch
   def call(players, winner_name, created_by, tournament_type)
+    raise StandardError unless players.include?(winner_name)
+
     result = nil
     ActiveRecord::Base.transaction do
       tournament = Tournament.where(tournament_type:).last
