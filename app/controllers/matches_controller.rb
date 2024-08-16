@@ -40,10 +40,10 @@ class MatchesController < ApplicationController
       flash[:alert] = 'An error occurred'
       render json: { error: 'An error occurred', details: e.message }, status: :internal_server_error
     end
+  end
 
-    def new
-      @last_match = ::Match.last
-    end
+  def new
+    @last_match = ::Match.last
   end
 
   def index
