@@ -27,7 +27,7 @@ class MatchesController < ApplicationController
       render json: { error: 'Validation error', details: e.record.errors.full_messages }, status: :unprocessable_entity
     rescue StandardError => e
       report_exception(e)
-      flash[:alert] = 'An error occurred'
+      flash[:alert] = e.message.present? ? e.message : 'An error occurred'
       render json: { error: 'An error occurred', details: e.message }, status: :internal_server_error
     end
   end
