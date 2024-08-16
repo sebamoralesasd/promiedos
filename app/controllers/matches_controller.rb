@@ -41,7 +41,9 @@ class MatchesController < ApplicationController
       render json: { error: 'An error occurred', details: e.message }, status: :internal_server_error
     end
 
-    def new; end
+    def new
+      @last_match = ::Match.last
+    end
   end
 
   def index

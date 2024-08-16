@@ -30,11 +30,22 @@
   line-height: 1;
   color: white;
 }
+  /* Agregar margen al costado izquierdo del formulario */
+  #match-form {
+    margin-left: 20px; /* Puedes ajustar el valor según lo necesites */
+  }
+
+  /* Estilo en negrita para las etiquetas del formulario */
+  #match-form label {
+    font-weight: bold;
+  }
 </style>
 
 <%= form_for :match, url: matches_path, method: :post, html: { id: 'match-form' } do |f| %>
-  <p>EDIT 2024-07-08</p>
+  <p><b>EDIT 2024-08-16</b></p>
   <p>Para llenar un partido, anotar: los nombres de los jugadores tal cual figuran en la tabla, sus puntos, el ganador del partido y el nombre del jugador que llenó los datos.<br> Luego de apretar en Create Match, refrescar la página: arriba va a aparecer un cartel verde o rojo dependiendo si se subió o no el partido correctamente.</p>
+<p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <%= @last_match.created_at %>.</p>
+
   <div id="player-info">
     <div class="player">
       <%= f.label :players_names, "Player Name:" %>
