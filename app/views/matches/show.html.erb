@@ -29,9 +29,11 @@
         <!-- If it's not the first match -->
         <a href="<%= match_path(id: @all_matches[@current_match_index - 1].id) %>">⬅️ </a>
       <% end %>
+      <b>
       Fecha
       <%= @current_match.number %>
       <%= @current_match.tournament.name.capitalize %>
+      </b>
       <% if @all_matches[@current_match_index + 1].present? %>
         <!-- If it's not the last match -->
         <a href="<%= match_path(id: @all_matches[@current_match_index + 1].id) %>">➡️</a>
