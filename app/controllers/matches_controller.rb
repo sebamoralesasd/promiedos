@@ -7,9 +7,9 @@ class MatchesController < ApplicationController
     players = params[:players].values
     winner_name = params[:winner_name]
     created_by = params[:created_by]
-    Rails.logger.info "Players: #{players}"
-    Rails.logger.info "Winner: #{winner_name}"
-    Rails.logger.info "Sent by: #{created_by}"
+    # Rails.logger.info "Players: #{players}"
+    # Rails.logger.info "Winner: #{winner_name}"
+    # Rails.logger.info "Sent by: #{created_by}"
 
     create_match_service = ::CreateMatch.new
 
