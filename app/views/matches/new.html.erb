@@ -44,7 +44,7 @@
 <%= form_for :match, url: matches_path, method: :post, html: { id: 'match-form' } do |f| %>
   <p><b>EDIT 2024-08-16</b></p>
   <p>Para llenar un partido, anotar: los nombres de los jugadores tal cual figuran en la tabla, sus puntos, el ganador del partido y el nombre del jugador que llenó los datos.<br> Luego de apretar en Create Match, refrescar la página: arriba va a aparecer un cartel verde o rojo dependiendo si se subió o no el partido correctamente.</p>
-<p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <%= @last_match.created_at %>.</p>
+  <p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <b><%= @last_match.created_at %>.</b></p>
 
   <div id="player-info">
     <div class="player">

@@ -118,7 +118,7 @@
             <% end %>
             <tr>
               <td colspan="7" class="description-cell">
-                <p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <%= @last_match.created_at %>.</p>
+                <p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <b><%= @last_match.created_at %>.</b></p>
                 <p><%= @tournament.description %> </p>
               </td>
             </tr>
