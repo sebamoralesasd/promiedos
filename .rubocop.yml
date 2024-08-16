@@ -1,0 +1,14 @@
+AllCops:
+  NewCops: enable
+Metrics/MethodLength:
+  Max: 40
+
+Metrics/BlockLength:
+  Exclude:
+  - spec/**/*_spec.rb
+  - Rakefile
+  - '**/*.rake'
+  Max: 182
+
+Style/Documentation:
+  Enabled: false
