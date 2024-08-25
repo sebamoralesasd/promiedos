@@ -19,7 +19,7 @@ module PositionServices
         player_total_matches = total_matches[player_id] || 0
         player_matches_won = matches_won[player_id] || 0
         points = total_points[player_id] || 0
-        player_total_points = points.zero? ? 0 : points + player_matches_won * winner_points
+        player_total_points = points.zero? ? 0 : points + (player_matches_won * winner_points)
 
         ratio = player_total_matches.zero? ? 0 : player_total_points.to_f / player_total_matches
         eligible_for_tournament = player_total_matches >= min_matches_required.to_i ? 1 : 0

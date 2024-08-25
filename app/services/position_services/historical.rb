@@ -18,7 +18,8 @@ module PositionServices
           name: player.name,
           total_matches: player_total_matches,
           matches_won: player_matches_won,
-          ratio:
+          ratio:,
+          id: player.id
         }
       end
 

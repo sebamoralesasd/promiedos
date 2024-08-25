@@ -103,10 +103,13 @@
                   <% match_history = player[:match_history] %>
                   <% match_history.each do |ma| %>
                     <% if ma %>
+                      <%= pl = ::Player.find(player[:id]) %> 
+                      <%= mp = ::MatchPlayer.find_by!(player: pl, match: ma) %>
+                      <%= po = mp.points %>
                       <% if player[:name] == ma.winner[:name] %>
-                        <div class="history-box won"></div>
+                        <div class="history-box won"><%= po %></div>
                       <% else %>
-                        <div class="history-box lost"></div>
+                        <div class="history-box lost"><%= po %></div>
                       <% end %>
                     <% else %>
                       _
