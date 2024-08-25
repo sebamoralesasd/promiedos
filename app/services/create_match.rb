@@ -2,7 +2,7 @@
 
 class CreateMatch
   def call(players, winner_name, created_by, tournament_type)
-    raise StandardError, 'No se encuentra el ganador en la lista' unless players.include?(winner_name)
+    raise StandardError, 'No se encuentra el ganador en la lista' unless players.find { |pl| pl[:name] == winner_name }
 
     result = nil
     ActiveRecord::Base.transaction do
