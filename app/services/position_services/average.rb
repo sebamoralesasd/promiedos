@@ -27,6 +27,7 @@ module PositionServices
         # Store stats in a hash for further usage.
         player_stats << {
           name: player.name,
+          id: player.id,
           total_matches: player_total_matches,
           total_points: player_total_points,
           matches_won: player_matches_won,
