@@ -22,11 +22,12 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libpq-dev
+    apt-get install --no-install-recommends -y build-essential=12.4 libpq-dev=15.0 && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN bundle install --jobs 4 --retry 3 && \
     bundle exec bootsnap precompile --gemfile && \
     rm -rf ~/.bundle/ $BUNDLE_PATH/ruby/*/cache $BUNDLE_PATH/ruby/*/bundler/gems/*/.git
 
@@ -40,7 +41,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN sed -i 's/ruby3\.0$/ruby/' bin/*
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile && \
+    rm -rf tmp/cache app/assets/cache public/assets/.sprockets-manifest*
 
 
 # Final stage for app image
@@ -48,8 +50,8 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y curl postgresql-client=15.0 && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
@@ -70,3 +72,7 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 CMD ["./bin/rails", "server"]
+
+# Add health check
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+#   CMD curl --fail http://localhost:3000 || exit 1
