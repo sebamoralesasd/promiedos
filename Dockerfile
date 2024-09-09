@@ -22,7 +22,7 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential=12.4 libpq-dev=15.0 && \
+    apt-get install --no-install-recommends -y && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install application gems
