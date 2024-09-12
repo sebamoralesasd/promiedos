@@ -40,7 +40,7 @@ module PositionServices
     end
 
     def tournament
-      @tournament ||= params[:tournament]
+      @tournament ||= @params[:tournament]
     end
 
     def winner_points
