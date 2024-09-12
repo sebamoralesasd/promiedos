@@ -3,44 +3,63 @@
 module PositionServices
   class Average < Strategy
     def execute(params)
-      @tournament = params[:tournament]
-      # Get the maximum matches played by any player
-      max_matches_played = ::MaxMatchesPlayed.new.resolve(@tournament)
-      # Calculate the minimum number of matches required to compete
-      min_matches_required = max_matches_played ? (max_matches_played / 2.0).round : 0
-
-      @players = @tournament.players.select('players.*')
-      winner_points = params[:winner_points]
+      @params = params
       player_stats = []
 
-      @players.each do |player|
-        player_id = player.id
-
-        player_total_matches = total_matches[player_id] || 0
-        player_matches_won = matches_won[player_id] || 0
-        points = total_points[player_id] || 0
-        player_total_points = points.zero? ? 0 : points + (player_matches_won * winner_points)
-
-        ratio = player_total_matches.zero? ? 0 : player_total_points.to_f / player_total_matches
-        eligible_for_tournament = player_total_matches >= min_matches_required.to_i ? 1 : 0
-
-        # Store stats in a hash for further usage.
-        player_stats << {
-          name: player.name,
-          id: player.id,
-          total_matches: player_total_matches,
-          total_points: player_total_points,
-          matches_won: player_matches_won,
-          ratio:,
-          eligible_for_tournament:,
-          match_history: match_history(player_id)
-        }
+      players.each do |player|
+        player_stats << stats(player)
       end
 
       sort(player_stats)
     end
 
     private
+
+    def stats(player)
+      player_id = player.id
+
+      player_total_matches = total_matches[player_id] || 0
+      player_matches_won = matches_won[player_id] || 0
+      points = total_points[player_id] || 0
+      player_total_points = points.zero? ? 0 : points + (player_matches_won * winner_points)
+
+      ratio = player_total_matches.zero? ? 0 : player_total_points.to_f / player_total_matches
+      eligible_for_tournament = player_total_matches >= min_matches_required.to_i ? 1 : 0
+
+      # Store stats in a hash for further usage.
+      {
+        name: player.name,
+        id: player.id,
+        total_matches: player_total_matches,
+        total_points: player_total_points,
+        matches_won: player_matches_won,
+        ratio:,
+        eligible_for_tournament:,
+        match_history: match_history(player_id)
+      }
+    end
+
+    def tournament
+      @params[:tournament]
+    end
+
+    def winner_points
+      @params[:winner_points]
+    end
+
+    def players
+      @players ||= @tournament.players.select('players.*')
+    end
+
+    # Get the maximum matches played by any player
+    def max_matches_played
+      @max_matches_played ||= ::MaxMatchesPlayed.new.resolve(@tournament)
+    end
+
+    # Calculate the minimum number of matches required to compete
+    def min_matches_required
+      @min_matches_required ||= max_matches_played ? (max_matches_played / 2.0).round : 0
+    end
 
     def sort(stats)
       stats.sort_by! { |x| [-x[:eligible_for_tournament], -x[:ratio]] }
