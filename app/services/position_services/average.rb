@@ -40,7 +40,7 @@ module PositionServices
     end
 
     def tournament
-      @params[:tournament]
+      @tournament ||= params[:tournament]
     end
 
     def winner_points
@@ -48,7 +48,7 @@ module PositionServices
     end
 
     def players
-      @players ||= @tournament.players.select('players.*')
+      @players ||= tournament.players.select('players.*')
     end
 
     # Get the maximum matches played by any player
