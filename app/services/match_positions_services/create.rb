@@ -11,10 +11,16 @@ module MatchPositionsServices
         player_stats << stats(player)
       end
 
-      player_stats
+      add_position_value(player_stats)
     end
 
     private
+
+    def add_position_value(stats)
+      sort(stats).each_with_index do |st, i|
+        st.merge!(position: i + 1)
+      end
+    end
 
     def stats(player)
       player_id = player.id
