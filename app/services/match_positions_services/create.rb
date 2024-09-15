@@ -7,7 +7,6 @@ module MatchPositionsServices
       player_stats = []
 
       players.each do |player|
-        # player_stats << MatchPosition.create!(stats(player))
         player_stats << stats(player)
       end
 
@@ -18,7 +17,7 @@ module MatchPositionsServices
 
     def add_position_value(stats)
       sort(stats).each_with_index do |st, i|
-        st.merge!(position: i + 1)
+        ::MatchPosition.create!(st.merge!(position: i + 1))
       end
     end
 

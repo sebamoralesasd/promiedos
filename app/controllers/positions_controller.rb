@@ -22,7 +22,7 @@ class PositionsController < ApplicationController
                         end
 
     @tournament = @all_tournaments[@tournament_index]
-    @positions = PositionServices::Context.new(PositionServices::Average.new)
+    @positions = PositionServices::Context.new(PositionServices::NewAverage.new)
                                           .execute(tournament: @tournament, winner_points: 2)
     @last_match = ::Match.last
   end
