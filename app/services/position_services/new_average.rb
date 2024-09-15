@@ -20,7 +20,7 @@ module PositionServices
       match_position = match_positions.find_by(player_id:)
       eligible_for_tournament = match_position.eligible_for_tournament ? 1 : 0
       {
-        relative_pos:,
+        relative_pos: relative_pos(player_id),
         name: player.name,
         id: player_id,
         total_matches: match_position.total_matches,
