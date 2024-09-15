@@ -95,7 +95,7 @@
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-                <% rel_pos = player[:relative_pos] == 0 ? '' : (player[:relative_pos] == 1 ? "⬆️" : "⬇️") %>
+                <% rel_pos = player[:relative_pos]  %>
                 <td><%= rel_pos %></td>
                 <td><%= fin_torneo && index == 0 ? "🏆" : "" %> <%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
@@ -123,7 +123,7 @@
               </tr>
             <% end %>
             <tr>
-              <td colspan="7" class="description-cell">
+              <td colspan="8" class="description-cell">
                 <p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <b><%= @last_match.created_at %>.</b></p>
                 <p><%= @tournament.description %> </p>
               </td>
