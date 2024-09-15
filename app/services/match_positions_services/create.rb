@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../../../lib/report_exception'
+
 module MatchPositionsServices
   class Create
     def execute(params)
