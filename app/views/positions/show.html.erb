@@ -74,11 +74,12 @@
           <thead>
             <!-- Title row -->
             <tr>
-              <th colspan="7" class="title-cell">🏆
+              <th colspan="8" class="title-cell">🏆
                 <%= @tournament.name.capitalize %>
                 🏆</th>
             </tr>
             <tr>
+              <th>Test</th>
               <th>Jugador</th>
               <th>Ratio</th>
               <th>Puntos totales</th>
@@ -94,6 +95,11 @@
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
+              <% if player[:relative_pos] == 1 %>
+                <td><%= "⬆️" %></td>
+              <% else if player[:relative_pos] == -1 %>
+                <td><%= "⬇️" %></td>
+              <% end %>
                 <td><%= fin_torneo && index == 0 ? "🏆" : "" %> <%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
                 <td><%= player[:total_points] %></td>

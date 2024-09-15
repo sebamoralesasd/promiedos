@@ -20,6 +20,7 @@ module PositionServices
       match_position = match_positions.find_by(player_id:)
       eligible_for_tournament = match_position.eligible_for_tournament ? 1 : 0
       {
+        relative_pos:,
         name: player.name,
         id: player_id,
         total_matches: match_position.total_matches,
@@ -31,8 +32,19 @@ module PositionServices
       }
     end
 
+    def relative_pos(player_id)
+      mps = MatchPosition.where(match:, player_id:).last(2)
+      return 0 if mps.count < 2 || mps.first.position == mps.last.position
+
+      mps.first.position < mps.last.position ? 1 : -1
+    end
+
+    def match
+      Match.where(tournament:).last
+    end
+
     def match_positions
-      MatchPosition.where(match: Match.where(tournament:).last)
+      MatchPosition.where(match:)
     end
 
     def tournament
