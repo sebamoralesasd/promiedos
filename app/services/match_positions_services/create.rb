@@ -70,10 +70,13 @@ module MatchPositionsServices
     end
 
     def total_matches
+      matches.count
+    end
+
+    def matches
       MatchPlayer.joins(:match)
                  .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
                  .group(:player_id)
-                 .count
     end
 
     def matches_won
@@ -89,10 +92,7 @@ module MatchPositionsServices
     end
 
     def total_points
-      MatchPlayer.joins(:match)
-                 .where(player_id: @players.map(&:id), matches: { tournament_id: @tournament.id })
-                 .group(:player_id)
-                 .sum(:points)
+      matches.sum(:points)
     end
 
     def match_player(player_id)
