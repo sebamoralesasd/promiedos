@@ -78,15 +78,14 @@ module MatchPositionsServices
     end
 
     def matches
-      query = MatchPlayer.joins(:match)
-                         .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
-      query = query.where('matches_id <= ?', match_id) if match_id.present?
-
-      query.group(:player_id)
+      MatchPlayer.joins(:match)
+                 .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
+                 .where('match_id <= ?', match_id)
+                 .group(:player_id)
     end
 
     def match_id
-      @params[:match_id]
+      @params[:match_id] || Match.last.id
     end
 
     def matches_won
@@ -106,7 +105,7 @@ module MatchPositionsServices
     end
 
     def match_player(player_id)
-      ::MatchHistory.new.resolve(Tournament.last).first.match_players.find_by(player_id:)
+      ::MatchPlayer.find_by(player_id:, match_id:)
     end
   end
 end
