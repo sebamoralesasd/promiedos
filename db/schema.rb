@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_26_162355) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_15_160104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_26_162355) do
     t.integer "points"
     t.index ["match_id"], name: "index_match_players_on_match_id"
     t.index ["player_id"], name: "index_match_players_on_player_id"
+  end
+
+  create_table "match_positions", force: :cascade do |t|
+    t.bigint "match_player_id", null: false
+    t.integer "position", null: false
+    t.integer "total_matches", null: false
+    t.integer "total_points", null: false
+    t.integer "matches_won", null: false
+    t.boolean "eligible_for_tournament"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_player_id"], name: "index_match_positions_on_match_player_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -61,11 +73,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_26_162355) do
     t.datetime "updated_at", null: false
     t.string "tournament_type", default: "liga", null: false
     t.text "description", default: "Se computan puntos ganados sobre partidos jugados. Sumandose 2 puntos al ganador de la partida. Para que sea válida la participación de un jugador en búsqueda del título tiene que haber jugado al menos la mitad de catanes del jugador con más presencias. Solo son válidos los catanes de 4,5 o 6 jugadores. La última fecha del torneo puede ser como máximo antes del cambio de estación. Los catanes viajeros no computan. El premio está a definirse. En caso de igualdad de porcentaje, gana el torneo el que mas catanes ganados tenga.", null: false
+    t.string "alias", default: "actual", null: false
     t.index ["champion_id"], name: "index_tournaments_on_champion_id"
   end
 
   add_foreign_key "match_players", "matches"
   add_foreign_key "match_players", "players"
+  add_foreign_key "match_positions", "match_players"
   add_foreign_key "matches", "players", column: "created_by_id", on_delete: :nullify
   add_foreign_key "matches", "players", column: "winner_id", on_delete: :nullify
   add_foreign_key "matches", "tournaments"
