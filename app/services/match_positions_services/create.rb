@@ -74,9 +74,11 @@ module MatchPositionsServices
     end
 
     def matches
-      MatchPlayer.joins(:match)
-                 .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
-                 .group(:player_id)
+      query = MatchPlayer.joins(:match)
+                         .where(player: @players.map(&:id), matches: { tournament_id: @tournament.id })
+      query = query.where('matches_id <= ?', match_id) if match_id.present?
+
+      query.group(:player_id)
     end
 
     def matches_won
