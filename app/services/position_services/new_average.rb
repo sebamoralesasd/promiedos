@@ -17,7 +17,7 @@ module PositionServices
 
     def stats(player)
       player_id = player.id
-      match_position = match_positions.find_by(player_id:, match: Match.where(tournament:).last)
+      match_position = match_positions.find_by(player_id:)
       eligible_for_tournament = match_position.eligible_for_tournament ? 1 : 0
       {
         name: player.name,
@@ -32,7 +32,7 @@ module PositionServices
     end
 
     def match_positions
-      MatchPosition.joins(:match_player, :matches).where(matches: { tournament: })
+      MatchPosition.where(match: Match.where(tournament:).last)
     end
 
     def tournament
