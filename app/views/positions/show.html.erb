@@ -95,7 +95,7 @@
               <% bold_class = index == 0 ? "bold-row" : "" %>
               <% bg_class = player[:eligible_for_tournament] == 1 ? "" : "no-competition-bg" %>
               <tr class="<%= "#{bold_class} #{bg_class}".strip %>">
-                <% rel_pos = player[:relative_pos]  %>
+                <% rel_pos = player[:relative_pos] == 0 ? '' : (player[:relative_pos] == 1 ? "⬆️" : "⬇️") %>
                 <td><%= rel_pos %></td>
                 <td><%= fin_torneo && index == 0 ? "🏆" : "" %> <%= player[:name].capitalize %></td>
                 <td><%= player[:ratio]&.round(3) %></td>
