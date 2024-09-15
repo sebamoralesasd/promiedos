@@ -18,7 +18,7 @@ module PositionServices
     def stats(player)
       player_id = player.id
 
-      match_position = match_positions.find_by(player_id:)
+      match_position = match_positions.joins(:match_player).find_by(match_player: { player_id: })
 
       {
         name: player.name,
