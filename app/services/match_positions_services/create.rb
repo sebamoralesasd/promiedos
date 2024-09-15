@@ -80,6 +80,10 @@ module MatchPositionsServices
       query.group(:player_id)
     end
 
+    def match_id
+      @params[:match_id]
+    end
+
     def matches_won
       a = {}
       @tournament.players

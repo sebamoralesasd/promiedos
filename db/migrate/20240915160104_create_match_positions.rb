@@ -6,7 +6,6 @@ class CreateMatchPositions < ActiveRecord::Migration[7.0]
       t.integer :total_matches, null: false
       t.integer :total_points, null: false
       t.integer :matches_won, null: false
-      # t.decimal :ratio
       t.boolean :eligible_for_tournament
 
       t.timestamps
