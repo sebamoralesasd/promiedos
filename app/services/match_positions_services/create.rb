@@ -11,6 +11,9 @@ module MatchPositionsServices
       end
 
       add_position_value(player_stats)
+    rescue StandardError => e
+      report_exception(e)
+      raise e
     end
 
     private
