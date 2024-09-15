@@ -105,7 +105,7 @@ module MatchPositionsServices
     end
 
     def match_player(player_id)
-      ::MatchPlayer.find_by(player_id:).last
+      ::MatchPlayer.where(player_id:).last
     end
   end
 end
