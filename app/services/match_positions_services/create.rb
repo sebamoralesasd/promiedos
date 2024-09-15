@@ -7,7 +7,8 @@ module MatchPositionsServices
       player_stats = []
 
       players.each do |player|
-        player_stats << MatchPlayer.create!(stats(player))
+        # player_stats << MatchPosition.create!(stats(player))
+        player_stats << stats(player)
       end
 
       player_stats
