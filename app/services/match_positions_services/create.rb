@@ -38,7 +38,8 @@ module MatchPositionsServices
       eligible_for_tournament = player_total_matches >= min_matches_required.to_i ? 1 : 0
 
       {
-        match_player: match_player(player.id),
+        match_id:,
+        player_id:,
         total_matches: player_total_matches,
         total_points: player_total_points,
         matches_won: player_matches_won,
@@ -102,10 +103,6 @@ module MatchPositionsServices
 
     def total_points
       matches.sum(:points)
-    end
-
-    def match_player(player_id)
-      ::MatchPlayer.where(player_id:).last
     end
   end
 end

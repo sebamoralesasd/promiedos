@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_15_160104) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_15_192210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,7 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_160104) do
   end
 
   create_table "match_positions", force: :cascade do |t|
-    t.bigint "match_player_id", null: false
     t.integer "position", null: false
     t.integer "total_matches", null: false
     t.integer "total_points", null: false
@@ -33,7 +32,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_160104) do
     t.boolean "eligible_for_tournament"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["match_player_id"], name: "index_match_positions_on_match_player_id"
+    t.decimal "ratio"
+    t.bigint "match_id"
+    t.bigint "player_id"
+    t.index ["match_id"], name: "index_match_positions_on_match_id"
+    t.index ["player_id"], name: "index_match_positions_on_player_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -79,7 +82,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_160104) do
 
   add_foreign_key "match_players", "matches"
   add_foreign_key "match_players", "players"
-  add_foreign_key "match_positions", "match_players"
   add_foreign_key "matches", "players", column: "created_by_id", on_delete: :nullify
   add_foreign_key "matches", "players", column: "winner_id", on_delete: :nullify
   add_foreign_key "matches", "tournaments"
