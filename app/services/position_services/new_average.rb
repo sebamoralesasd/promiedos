@@ -33,14 +33,18 @@ module PositionServices
     end
 
     def relative_pos(player_id)
-      mps = MatchPosition.order(match_id: :desc).where(player_id:).last(2)
+      mps = MatchPosition.order(match_id: :desc).where(player_id:, match: tournament_matches).last(2)
       return 0 if mps.count < 2 || mps.first.position == mps.last.position
 
       mps.first.position < mps.last.position ? 1 : -1
     end
 
+    def tournament_matches
+      Match.where(tournament:)
+    end
+
     def match
-      Match.where(tournament:).last
+      tournament_matches.last
     end
 
     def match_positions
