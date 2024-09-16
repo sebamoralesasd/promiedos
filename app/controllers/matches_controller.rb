@@ -12,6 +12,7 @@ class MatchesController < ApplicationController
 
     begin
       match = create_match_service.call(players, winner_name, created_by, 'liga')
+      ::MatchPositionsServices::Create.new.execute(tournament: Tournament.last, winner_points: 2, match_id: match.id)
       flash[:notice] = 'Match created successfully'
       render json: { message: 'Match created successfully', match_id: match.id }, status: :created
     rescue ActiveRecord::RecordNotFound => e
