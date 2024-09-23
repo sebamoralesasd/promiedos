@@ -23,10 +23,10 @@ module PositionServices
         relative_pos: relative_pos(player_id),
         name: player.name,
         id: player_id,
-        total_matches: match_position.total_matches || 0,
-        total_points: match_position.total_points || 0,
-        matches_won: match_position.matches_won || 0,
-        ratio: match_position.ratio || 0,
+        total_matches: match_position&.total_matches || 0,
+        total_points: match_position&.total_points || 0,
+        matches_won: match_position&.matches_won || 0,
+        ratio: match_position&.ratio || 0,
         eligible_for_tournament:,
         match_history: match_history(player_id)
       }
