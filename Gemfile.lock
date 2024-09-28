@@ -94,6 +94,9 @@ GEM
     erubi (1.12.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    goldiloader (5.3.1)
+      activerecord (>= 6.1, < 8)
+      activesupport (>= 6.1, < 8)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
@@ -271,6 +274,7 @@ DEPENDENCIES
   capybara
   debug
   dockerfile-rails (>= 1.5)
+  goldiloader
   importmap-rails
   jbuilder
   pg (~> 1.4)
