@@ -21,8 +21,21 @@ RUN gem update --system --no-document && \
 FROM base as build
 
 # Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libpq-dev
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y build-essential libpq-dev
+
+RUN apk update \
+  && apk add --no-cache \
+  build-base \
+  libxml2-dev \
+  libxslt-dev \
+  libpq-dev \
+  tzdata \
+  bash \
+  git \
+  libcurl \
+  shared-mime-info
+
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
