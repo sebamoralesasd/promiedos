@@ -21,21 +21,8 @@ RUN gem update --system --no-document && \
 FROM base as build
 
 # Install packages needed to build gems
-# RUN apt-get update -qq && \
-#     apt-get install --no-install-recommends -y build-essential libpq-dev
-
-RUN apk update \
-  && apk add --no-cache \
-  build-base \
-  libxml2-dev \
-  libxslt-dev \
-  libpq-dev \
-  tzdata \
-  bash \
-  git \
-  libcurl \
-  shared-mime-info
-
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential libpq-dev
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
@@ -60,8 +47,8 @@ RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apk update && \
-    apk add curl postgresql-client && \
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -69,7 +56,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-RUN adduser rails --create-home --shell /bin/bash && \
+RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
