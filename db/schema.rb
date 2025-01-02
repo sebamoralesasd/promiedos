@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_15_192210) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_02_205243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_192210) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "points"
+    t.index ["match_id", "player_id"], name: "index_match_players_on_match_id_and_player_id", unique: true
     t.index ["match_id"], name: "index_match_players_on_match_id"
     t.index ["player_id"], name: "index_match_players_on_player_id"
   end
@@ -35,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_192210) do
     t.decimal "ratio"
     t.bigint "match_id"
     t.bigint "player_id"
+    t.index ["match_id", "player_id"], name: "index_match_positions_on_match_id_and_player_id", unique: true
     t.index ["match_id"], name: "index_match_positions_on_match_id"
     t.index ["player_id"], name: "index_match_positions_on_player_id"
   end
