@@ -10,13 +10,14 @@ class CupsController < ApplicationController
   def create
     players = params[:players].values
     winner_name = params[:winner_name]
+    created_by = params[:created_by]
     Rails.logger.info "Players: #{players}"
     Rails.logger.info "Winner: #{winner_name}"
 
     create_match_service = ::CreateMatch.new
 
     begin
-      match = create_match_service.call(players, winner_name, 'copa')
+      match = create_match_service.call(players, winner_name, created_by, 'copa')
       flash[:notice] = 'Match created successfully'
       render json: { message: 'Match created successfully', match_id: match.id }, status: :created
     rescue ActiveRecord::RecordNotFound => e
@@ -44,6 +45,10 @@ class CupsController < ApplicationController
       flash[:alert] = 'An error occurred'
       render json: { error: 'An error occurred', details: e.message }, status: :internal_server_error
     end
+  end
+
+  def new
+    @last_match = ::Match.last
   end
 
   # def last

@@ -47,11 +47,11 @@ body {
 </style>
 
 <div class="form-description">
+  <p><b>EDIT 2025-01-02</b></p>
   <h2>Crear partido para la copa corriente.</h2>
-  <p>Poner los nombres de los jugadores tal cual aparecen en la tabla (por ej. toalla en lugar de Alejo), de lo contrario el envío falla.</p>
-  <p>No poner manualmente los 2 puntos del ganador. La página se los asignará al que esté en la casilla de winner.</p>
-  Luego de apretar Create Match, recargar la página para ver si se mandaron bien los resultados o no (les va a aparecer arriba un cartel verde o rojo indicando si se enviaron bien o mal respectivamente (está hecho como el orto, algún día lo arreglo)). 
-  Cualquier cosa rara me avisan. </p>
+  <p>Para llenar un partido, anotar: los nombres de los jugadores tal cual figuran en la tabla, sus puntos, el ganador del partido y el nombre del jugador que llenó los datos.<br> Luego de apretar en Create Match, refrescar la página: arriba va a aparecer un cartel verde o rojo dependiendo si se subió o no el partido correctamente.</p>
+
+  <p>La última actualización de la tabla la realizó <%= @last_match.created_by.name.capitalize %> el día <b><%= @last_match.created_at %>.</b></p>
 </div>
 
 <%= form_for :match, url: cups_path, method: :post, html: { id: 'match-form' } do |f| %>
@@ -70,6 +70,10 @@ body {
   <div>
     <%= f.label :winner_name, "Winner's Name:" %>
     <%= f.text_field :winner_name, name: "winner_name" %>
+  </div>
+ <div>
+    <%= f.label :created_by, "Formulario completado por:" %>
+    <%= f.text_field :created_by, name: "created_by" %>
   </div>
 
   <%= f.submit "Create Match" %>
