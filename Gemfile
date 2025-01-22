@@ -43,7 +43,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 
 gem 'memory_profiler'
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', require: false
 gem 'stackprof'
 
 # Use Sass to process CSS
