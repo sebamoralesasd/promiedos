@@ -18,7 +18,7 @@ class PositionsController < ApplicationController
                             tr.alias == params[:id]
                           end
                         else
-                          @all_tournaments.length - 1
+                          @all_tournaments.size - 1
                         end
 
     @tournament = @all_tournaments[@tournament_index]

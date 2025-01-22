@@ -52,7 +52,7 @@ class MatchesController < ApplicationController
                                m.id == params[:id].to_i
                              end
                            else
-                             @all_matches.length - 1
+                             @all_matches.size - 1
                            end
 
     @current_match = @all_matches[@current_match_index]
